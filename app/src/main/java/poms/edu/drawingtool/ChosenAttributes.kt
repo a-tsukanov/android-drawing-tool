@@ -4,4 +4,6 @@ import android.graphics.Color
 
 typealias ColorId = Int
 
-object ChosenColor {var penColor: ColorId = Color.BLACK}
+object ChosenAttributes {
+    var penColor: ColorId = Color.BLACK
+}

@@ -1,3 +1,3 @@
 package poms.edu.drawingtool
 
-interface Figure
+abstract class Figure(val color: ColorId)
