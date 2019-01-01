@@ -4,8 +4,6 @@ import android.graphics.Color
 
 object FiguresCollection {
     val figures: MutableList<Figure> = mutableListOf(
-        Point(3f, 4f, Color.BLUE),
-        Point(80f, 20f, Color.CYAN),
         Circle(100f, 100f, 100f, Color.BLUE),
         Oval(200f, 500f, 300f, 330f, Color.RED),
         Rectangle(400f, 500f, 600f, 700f, Color.BLUE),

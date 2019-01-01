@@ -1,11 +1,5 @@
 package poms.edu.drawingtool
 
-class Point(
-    val x: Float,
-    val y: Float,
-    color: ColorId
-): Figure(color)
-
 
 class Line(
     val startX: Float,
@@ -49,3 +43,13 @@ class Triangle(
     val bottom: Float,
     color: ColorId
 ): Figure(color)
+
+
+enum class Figures {
+    PEN,
+    LINE,
+    CIRCLE,
+    OVAL,
+    RECTANGLE,
+    TRIANGLE,
+}

@@ -6,4 +6,5 @@ typealias ColorId = Int
 
 object ChosenAttributes {
     var penColor: ColorId = Color.BLACK
+    var figure: Figures = Figures.PEN
 }

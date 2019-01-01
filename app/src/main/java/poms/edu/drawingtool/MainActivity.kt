@@ -24,5 +24,17 @@ class MainActivity : Activity() {
                 })
             colorDialog.show()
         }
+
+        val btnToFigure = mapOf(
+            btnPen      to Figures.PEN,
+            btnLine     to Figures.LINE,
+            btnCircle   to Figures.CIRCLE,
+            btnOval     to Figures.OVAL,
+            btnRect     to Figures.RECTANGLE,
+            btnTriangle to Figures.TRIANGLE
+        )
+        btnToFigure.forEach { btn, fig ->
+            btn.setOnClickListener { ChosenAttributes.figure = fig }
+        }
     }
 }

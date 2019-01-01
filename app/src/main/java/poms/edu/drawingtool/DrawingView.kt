@@ -8,6 +8,8 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.view.*
+import java.lang.Math.pow
+import kotlin.math.sqrt
 
 class DrawingView: View {
 
@@ -30,10 +32,8 @@ class DrawingView: View {
             val paint = Paint().apply {
                 style = Paint.Style.FILL
                 color = figure.color
-                minimumWidth = 5
             }
             when (figure) {
-                is Point     -> drawPoint(figure.x, figure.y, paint)
                 is Line      -> drawLine(figure.startX, figure.startY, figure.endX, figure.endY, paint)
                 is Circle    -> drawCircle(figure.centerX, figure.centerY, figure.radius, paint)
                 is Oval      -> drawOval(figure.left, figure.top, figure.right, figure.bottom, paint)
@@ -56,8 +56,8 @@ class DrawingView: View {
         }
     }
 
-    var beginX: Float? = null
-    var beginY: Float? = null
+    private var beginX: Float? = null
+    private var beginY: Float? = null
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val (x, y) = Pair(event.x, event.y)
@@ -67,8 +67,32 @@ class DrawingView: View {
                 beginX = x
                 beginY = y
             }
+            MotionEvent.ACTION_MOVE -> {
+                if (ChosenAttributes.figure == Figures.PEN) {
+                    FiguresCollection.figures.add(
+                        Line(beginX!!, beginY!!, x, y, ChosenAttributes.penColor)
+                    )
+                    invalidate()
+                    beginX = x
+                    beginY = y
+                }
+            }
             MotionEvent.ACTION_UP -> {
-                FiguresCollection.figures.add(Rectangle(beginX!!, x, beginY!!, y, ChosenAttributes.penColor))
+                val (beginX, beginY) = Pair(this.beginX!!, this.beginY!!)
+                val newFigure: Figure = when (ChosenAttributes.figure) {
+                    Figures.PEN -> return true
+                    Figures.LINE -> Line(beginX, beginY, x, y, ChosenAttributes.penColor)
+                    Figures.CIRCLE -> {
+                        val dx = (x - beginX).toDouble()
+                        val dy = (y - beginY).toDouble()
+                        val radius = sqrt(pow(dx, 2.0) + pow(dy, 2.0))
+                        Circle(radius.toFloat(), beginX, beginY, ChosenAttributes.penColor)
+                    }
+                    Figures.OVAL -> Oval(beginX, x, beginY, y, ChosenAttributes.penColor)
+                    Figures.RECTANGLE -> Rectangle(beginX, x, beginY, y, ChosenAttributes.penColor)
+                    Figures.TRIANGLE -> Triangle(beginX, x, beginY, y, ChosenAttributes.penColor)
+                }
+                FiguresCollection.figures.add(newFigure)
                 drawingView.invalidate()
             }
         }
